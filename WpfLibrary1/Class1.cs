@@ -1,87 +1,81 @@
+using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Wpf;
-using System;
-using System.Linq;
-using System.Windows.Media;
-using FoodQualityAnalyzer;
+using Model.Core;
 
-namespace WpfLibrary1
+namespace WpfLibrary1;
+
+public class Class1
 {
-    public class Class1
+    public class ReportWindowViewModel
     {
-        public class ReportWindowViewModel
+        public ReportWindowViewModel(FoodProduct[] products)
         {
-            public string[] ProductNames { get; }
-            public SeriesCollection ColumnValues { get; }
-            public SeriesCollection PieValues { get; }
-            public SeriesCollection LineValues { get; }
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            ProductNames = products.Select(p => p.Name).ToArray();
+            var qualities = products.Select(p => p.GetQuality()).ToArray();
 
-            public double AverageQuality { get; }
-            public double MaxQuality { get; }
-            public double MinQuality { get; }
-            public int ProductsCount { get; }
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            ProductsCount = products.Length;
+            AverageQuality = Math.Round(qualities.Average(), 2);
+            MaxQuality = Math.Round(qualities.Max(), 2);
+            MinQuality = Math.Round(qualities.Min(), 2);
 
-            public Func<ChartPoint, string> PointLabel { get; }
-
-            public ReportWindowViewModel(FoodProduct[] products)
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            ColumnValues = new SeriesCollection
             {
-                // Данные продуктов
-                ProductNames = products.Select(p => p.Name).ToArray();
-                var qualities = products.Select(p => p.GetQuality()).ToArray();
-
-                // Статистика
-                ProductsCount = products.Length;
-                AverageQuality = Math.Round(qualities.Average(), 2);
-                MaxQuality = Math.Round(qualities.Max(), 2);
-                MinQuality = Math.Round(qualities.Min(), 2);
-
-                // Настройка столбчатой диаграммы
-                ColumnValues = new SeriesCollection
-        {
-            new ColumnSeries
-            {
-                Title = "Качество",
-                Values = new ChartValues<double>(qualities),
-                DataLabels = true,
-                Fill = Brushes.Green
-            }
-        };
-
-                // Настройка круговой диаграммы
-                PieValues = new SeriesCollection();
-                var random = new Random();
-                foreach (var product in products)
+                new ColumnSeries
                 {
-                    PieValues.Add(new PieSeries
-                    {
-                        Title = product.Name,
-                        Values = new ChartValues<double> { product.GetQuality() },
-                        DataLabels = true,
-                        Fill = new SolidColorBrush(Color.FromRgb(
-                            (byte)random.Next(150, 250),
-                            (byte)random.Next(150, 250),
-                            (byte)random.Next(150, 250)))
-                    });
+                    Title = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
+                    Values = new ChartValues<double>(qualities),
+                    DataLabels = true,
+                    Fill = Brushes.Green
                 }
+            };
 
-                // Настройка линейного графика
-                LineValues = new SeriesCollection
-        {
-            new LineSeries
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            PieValues = new SeriesCollection();
+            var random = new Random();
+            foreach (var product in products)
+                PieValues.Add(new PieSeries
+                {
+                    Title = product.Name,
+                    Values = new ChartValues<double> { product.GetQuality() },
+                    DataLabels = true,
+                    Fill = new SolidColorBrush(Color.FromRgb(
+                        (byte)random.Next(150, 250),
+                        (byte)random.Next(150, 250),
+                        (byte)random.Next(150, 250)))
+                });
+
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            LineValues = new SeriesCollection
             {
-                Title = "Качество",
-                Values = new ChartValues<double>(qualities),
-                PointGeometry = DefaultGeometries.Circle,
-                PointGeometrySize = 15,
-                Stroke = Brushes.Blue
-            }
-        };
+                new LineSeries
+                {
+                    Title = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
+                    Values = new ChartValues<double>(qualities),
+                    PointGeometry = DefaultGeometries.Circle,
+                    PointGeometrySize = 15,
+                    Stroke = Brushes.Blue
+                }
+            };
 
-                // Формат подписей для круговой диаграммы
-                PointLabel = chartPoint =>
-                    $"{chartPoint.SeriesView.Title}: {chartPoint.Y:P}";
-            }
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            PointLabel = chartPoint =>
+                $"{chartPoint.SeriesView.Title}: {chartPoint.Y:P}";
         }
-    }
 
+        public string[] ProductNames { get; }
+        public SeriesCollection ColumnValues { get; }
+        public SeriesCollection PieValues { get; }
+        public SeriesCollection LineValues { get; }
+
+        public double AverageQuality { get; }
+        public double MaxQuality { get; }
+        public double MinQuality { get; }
+        public int ProductsCount { get; }
+
+        public Func<ChartPoint, string> PointLabel { get; }
+    }
 }

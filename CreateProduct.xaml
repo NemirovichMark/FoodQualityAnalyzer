@@ -5,32 +5,33 @@
         WindowStartupLocation="CenterOwner">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto" MinHeight="248.32"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" MinHeight="248.32" />
         </Grid.RowDefinitions>
 
         <!-- Тип продукта -->
-        <TextBlock Grid.Row="0" Text="Тип продукта:" Margin="0,0,0,5"/>
-        <ComboBox Grid.Row="1" x:Name="TypeComboBox" Margin="0,0,0,10" SelectionChanged="TypeComboBox_SelectionChanged" Height="20"/>
+        <TextBlock Grid.Row="0" Text="Тип продукта:" Margin="0,0,0,5" />
+        <ComboBox Grid.Row="1" x:Name="TypeComboBox" Margin="0,0,0,10" SelectionChanged="TypeComboBox_SelectionChanged"
+                  Height="20" />
 
         <!-- Название продукта -->
-        <TextBlock Grid.Row="2" Text="Название продукта:" Margin="0,0,0,5" Height="20"/>
-        <TextBox Grid.Row="3" x:Name="NameTextBox" Margin="0,0,0,10" Height="20"/>
+        <TextBlock Grid.Row="2" Text="Название продукта:" Margin="0,0,0,5" Height="20" />
+        <TextBox Grid.Row="3" x:Name="NameTextBox" Margin="0,0,0,10" Height="20" />
 
         <!-- Сроки годности -->
-        <TextBlock Grid.Row="4" Text="Максимальный срок годности (дней):" Margin="0,0,0,5" Height="20"/>
-        <TextBox Grid.Row="5" x:Name="MaxTextBox" Margin="0,0,0,10" Height="20"/>
+        <TextBlock Grid.Row="4" Text="Максимальный срок годности (дней):" Margin="0,0,0,5" Height="20" />
+        <TextBox Grid.Row="5" x:Name="MaxTextBox" Margin="0,0,0,10" Height="20" />
 
-        <TextBlock Grid.Row="6" Text="Оставшийся срок годности (дней):" Margin="0,0,0,5" Height="20"/>
-        <TextBox Grid.Row="7" x:Name="OstTextBox" Margin="0,0,0,10" Height="20"/>
+        <TextBlock Grid.Row="6" Text="Оставшийся срок годности (дней):" Margin="0,0,0,5" Height="20" />
+        <TextBox Grid.Row="7" x:Name="OstTextBox" Margin="0,0,0,10" Height="20" />
 
 
         <!-- Параметры продукта -->
@@ -47,8 +48,9 @@
 
         <!-- Кнопки -->
         <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,56,10,0" Width="210">
-            <Button Content="Отмена" Width="100" Margin="0,0,10,0" Click="CancelButton_Click" Height="31" Background="#EA9999"/>
-            <Button Content="Добавить" Width="100" Click="AddButton_Click" Height="33" Background="#ADFF2F"/>
+            <Button Content="Отмена" Width="100" Margin="0,0,10,0" Click="CancelButton_Click" Height="31"
+                    Background="#EA9999" />
+            <Button Content="Добавить" Width="100" Click="AddButton_Click" Height="33" Background="#ADFF2F" />
         </StackPanel>
     </Grid>
 </Window>

@@ -1,62 +1,55 @@
-﻿using Model.Core;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using System.IO;
+using Model.Core;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using System.Resources.Extensions;
 
-namespace Model.Data
+namespace Model.Data;
+
+public class ProductAdd_Json
 {
-    public class ProductAdd_Json
+    public static string FolderPath =>
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ProductsJson");
+
+    public static void LoadProducts()
     {
-
-        public static string FolderPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ProductsJson");
-        public static void LoadProducts()
+        if (!Directory.Exists(FolderPath))
         {
-            if (!Directory.Exists(FolderPath))
-            {
-                Directory.CreateDirectory(FolderPath);
-                var products = CreateProducts();
-                SaveProducts(products);
-            }
-
-            var files = Directory.GetFiles(FolderPath, "*.json");
-
-            foreach (var file in files)
-            {
-                var text = File.ReadAllText(file);
-                var json = JToken.Parse(text);
-                FoodProduct NewProduct = SerializeJson.Deser(json);
-                var analyzer = new FoodQualityAnalyzer();
-                analyzer.Add(NewProduct);
-            }
+            Directory.CreateDirectory(FolderPath);
+            var products = CreateProducts();
+            SaveProducts(products);
         }
 
-        // Сохранение каждого продукта в отдельный файл
-        public static void SaveProducts(FoodProduct[] products)
+        var files = Directory.GetFiles(FolderPath, "*.json");
+
+        foreach (var file in files)
         {
-            foreach (var product in products)
-            {
-                SaveProduct(product);
-            }
+            var text = File.ReadAllText(file);
+            var json = JToken.Parse(text);
+            var NewProduct = SerializeJson.Deser(json);
+            var analyzer = new Core.FoodQualityAnalyzer();
+            analyzer.Add(NewProduct);
         }
-        public static void SaveProduct(FoodProduct product)
-        {
-            var SerJ = new SerializeJson();
-            SerJ.Ser(product);
+    }
 
-            var SerX = new SerializeXML();
-            SerX.Ser(product);
-        }
+    // Сохранение каждого продукта в отдельный файл
+    public static void SaveProducts(FoodProduct[] products)
+    {
+        foreach (var product in products) SaveProduct(product);
+    }
+
+    public static void SaveProduct(FoodProduct product)
+    {
+        var SerJ = new SerializeJson();
+        SerJ.Ser(product);
+
+        var SerX = new SerializeXML();
+        SerX.Ser(product);
+    }
 
 
-        // Начальные продукты
-        public static FoodProduct[] CreateProducts() => new FoodProduct[]
+    // Начальные продукты
+    public static FoodProduct[] CreateProducts()
+    {
+        return new FoodProduct[]
         {
             new Vegetable("Морковь", 40, 90, false, true),
             new Vegetable("Огурец", 25, 30, false, false),
@@ -98,7 +91,7 @@ namespace Model.Data
             new Backery("Пончик", 7, 7, true, false),
             new Backery("Печенье", 28, 30, true, false),
             new Backery("Синабонн", 1, 2, true, false),
-            new Backery("Рулет с клубникой", 2, 7, true, false),
+            new Backery("Рулет с клубникой", 2, 7, true, false)
         };
     }
 }
